@@ -3,105 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mechanische Kuckucksuhr</title>
+    <title>Kuckucksuhr</title>
     <style>
-        body { 
-            margin: 0; 
-            height: 100vh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            background: #a0522d; 
-            overflow: hidden;
-            -webkit-text-size-adjust: 100%;
-        }
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100dvh; background: #a0522d; overflow: hidden; }
+        
+        #stage { width: 400px; height: 550px; position: relative; }
+        .cuckoo-clock { width: 400px; height: 550px; background: #8b4513; border: 10px solid #5d2e0a; border-radius: 20px; position: relative; }
 
-        /* Dynamische Skalierung: passt die Uhr an den Bildschirm an */
-        .wrapper {
-            transform: scale(min(1, min(95vw / 400, 95vh / 550)));
-            transform-origin: center;
-        }
-
-        .cuckoo-clock { 
-            width: 400px; 
-            height: 550px; 
-            background: #8b4513; 
-            border: 10px solid #5d2e0a; 
-            border-radius: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            position: relative; 
-        }
-
-        .sync-pendulum { animation: syncAnim 2s infinite ease-in-out alternate; }
-
-        .owl-container { margin-top: 30px; display: flex; gap: 15px; }
+        .owl-container { position: absolute; top: 20px; width: 400px; display: flex; justify-content: center; gap: 15px; }
         .eye { width: 40px; height: 40px; background: white; border-radius: 50%; border: 3px solid #000; position: relative; overflow: hidden; }
         .pupil { width: 15px; height: 15px; background: #000; border-radius: 50%; position: absolute; top: 12px; }
 
-        .clock-face { margin-top: 20px; width: 300px; height: 300px; background: #fdf5e6; border-radius: 50%; border: 8px solid #5d2e0a; position: relative; }
-        .hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom center; background: #000; border-radius: 10px; }
-        .hour-hand { width: 12px; height: 75px; margin-left: -6px; }
-        .minute-hand { width: 10px; height: 110px; margin-left: -5px; }
-
-        .lower-section { margin-top: 10px; height: 120px; position: relative; display: flex; flex-direction: column; align-items: center; }
+        /* Ziffernblatt ist jetzt der Container für die Zeiger */
+        .clock-face { position: absolute; top: 80px; left: 50px; width: 300px; height: 300px; background: #fdf5e6; border-radius: 50%; border: 8px solid #5d2e0a; }
         
-        .scroll-window { 
-            width: 250px; height: 25px; background: #5d2e0a; border: 3px solid #333; 
-            overflow: hidden; position: relative; margin-bottom: 5px; 
-        }
-        
-        .ticker { 
-            position: absolute; white-space: nowrap; color: #ffd700; font-family: sans-serif; font-weight: bold;
-            animation: scrollText 8s linear infinite; top: 3px;
-        }
+        /* Zeiger zentriert durch absolute Positionierung im .clock-face */
+        .hand { position: absolute; top: 150px; left: 150px; transform-origin: 50% 100%; background: #000; border-radius: 5px; }
+        .hour-hand { width: 10px; height: 75px; margin-left: -5px; margin-top: -75px; }
+        .minute-hand { width: 8px; height: 110px; margin-left: -4px; margin-top: -110px; }
 
-        .pendulum-wrapper { width: 8px; height: 80px; background: #daa520; transform-origin: top; position: relative; }
+        .scroll-window { position: absolute; top: 400px; left: 60px; width: 280px; height: 30px; background: #5d2e0a; border: 3px solid #333; overflow: hidden; }
+        .ticker { position: absolute; white-space: nowrap; color: #ffd700; font-family: sans-serif; font-weight: bold; animation: scrollText 8s linear infinite; top: 5px; font-size: 20px; }
+
+        .pendulum-wrapper { position: absolute; top: 435px; left: 196px; width: 8px; height: 80px; background: #daa520; transform-origin: top; }
         .pendulum-weight { width: 30px; height: 30px; background: #daa520; border-radius: 50%; position: absolute; bottom: -15px; left: -11px; border: 3px solid #b8860b; }
 
-        @keyframes scrollText { 0% { left: 250px; } 100% { left: -250px; } }
+        @keyframes scrollText { 0% { left: 280px; } 100% { left: -300px; } }
         @keyframes syncAnim { 0% { transform: rotate(20deg); } 100% { transform: rotate(-20deg); } }
         @keyframes pupilSync { 0% { left: 5px; } 100% { left: 20px; } }
+        .sync-pendulum { animation: syncAnim 2s infinite ease-in-out alternate; }
         .pupil.sync-pendulum { animation: pupilSync 2s infinite ease-in-out alternate; }
     </style>
 </head>
 <body>
-    <div class="wrapper">
+    <div id="stage">
         <div class="cuckoo-clock">
             <div class="owl-container">
                 <div class="eye"><div class="pupil sync-pendulum"></div></div>
                 <div class="eye"><div class="pupil sync-pendulum"></div></div>
             </div>
-            
             <div class="clock-face" id="face">
                 <div class="hand hour-hand" id="h-hand"></div>
                 <div class="hand minute-hand" id="m-hand"></div>
             </div>
-
-            <div class="lower-section">
-                <div class="scroll-window">
-                    <div class="ticker">VSTÁVÁME IVANKO, UŽ JE RÁNO</div>
-                </div>
-                <div class="pendulum-wrapper sync-pendulum">
-                    <div class="pendulum-weight"></div>
-                </div>
-            </div>
+            <div class="scroll-window"><div class="ticker">VSTÁVÁME IVANKO, UŽ JE (ZAS)RÁNO... ;-)</div></div>
+            <div class="pendulum-wrapper sync-pendulum"><div class="pendulum-weight"></div></div>
         </div>
     </div>
-
     <script>
         function update() {
             const now = new Date();
-            document.getElementById('h-hand').style.transform = `rotate(${((now.getHours()%12)*30 + now.getMinutes()*0.5)}deg)`;
-            document.getElementById('m-hand').style.transform = `rotate(${now.getMinutes()*6}deg)`;
+            const hDeg = ((now.getHours() % 12) * 30) + (now.getMinutes() * 0.5);
+            const mDeg = now.getMinutes() * 6;
+            document.getElementById('h-hand').style.transform = `rotate(${hDeg}deg)`;
+            document.getElementById('m-hand').style.transform = `rotate(${mDeg}deg)`;
         }
         const face = document.getElementById('face');
         for(let i=0; i<60; i++) {
             const m = document.createElement('div');
-            m.style.cssText = `position:absolute; width:${i%5===0?4:2}px; height:${i%5===0?20:10}px; background:#333; left:148px; top:5px; transform-origin:center 145px; transform:rotate(${i*6}deg)`;
+            m.style.cssText = `position:absolute; width:${i%5===0?4:2}px; height:${i%5===0?20:10}px; background:#333; left:148px; top:10px; transform-origin:2px 140px; transform:rotate(${i*6}deg)`;
             face.appendChild(m);
         }
+        function scaleLayout() {
+            const stage = document.getElementById('stage');
+            const scale = Math.min(window.innerWidth / 400, window.innerHeight / 550) * 0.95;
+            stage.style.transform = `scale(${scale})`;
+        }
+        window.addEventListener('resize', scaleLayout);
+        scaleLayout();
         setInterval(update, 1000);
         update();
     </script>
