@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mechanische Kuckucksuhr</title>
     <style>
         body { 
@@ -11,6 +12,14 @@
             justify-content: center; 
             align-items: center; 
             background: #a0522d; 
+            overflow: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        /* Dynamische Skalierung: passt die Uhr an den Bildschirm an */
+        .wrapper {
+            transform: scale(min(1, min(95vw / 400, 95vh / 550)));
+            transform-origin: center;
         }
 
         .cuckoo-clock { 
@@ -36,7 +45,6 @@
         .hour-hand { width: 12px; height: 75px; margin-left: -6px; }
         .minute-hand { width: 10px; height: 110px; margin-left: -5px; }
 
-        /* Pendel & Laufschrift-Bereich */
         .lower-section { margin-top: 10px; height: 120px; position: relative; display: flex; flex-direction: column; align-items: center; }
         
         .scroll-window { 
@@ -59,23 +67,25 @@
     </style>
 </head>
 <body>
-    <div class="cuckoo-clock">
-        <div class="owl-container">
-            <div class="eye"><div class="pupil sync-pendulum"></div></div>
-            <div class="eye"><div class="pupil sync-pendulum"></div></div>
-        </div>
-        
-        <div class="clock-face" id="face">
-            <div class="hand hour-hand" id="h-hand"></div>
-            <div class="hand minute-hand" id="m-hand"></div>
-        </div>
-
-        <div class="lower-section">
-            <div class="scroll-window">
-                <div class="ticker">VSTÁVÁME IVANKO, UŽ JE (ZAS)RÁNO... ;-)</div>
+    <div class="wrapper">
+        <div class="cuckoo-clock">
+            <div class="owl-container">
+                <div class="eye"><div class="pupil sync-pendulum"></div></div>
+                <div class="eye"><div class="pupil sync-pendulum"></div></div>
             </div>
-            <div class="pendulum-wrapper sync-pendulum">
-                <div class="pendulum-weight"></div>
+            
+            <div class="clock-face" id="face">
+                <div class="hand hour-hand" id="h-hand"></div>
+                <div class="hand minute-hand" id="m-hand"></div>
+            </div>
+
+            <div class="lower-section">
+                <div class="scroll-window">
+                    <div class="ticker">VSTÁVÁME IVANKO, UŽ JE RÁNO</div>
+                </div>
+                <div class="pendulum-wrapper sync-pendulum">
+                    <div class="pendulum-weight"></div>
+                </div>
             </div>
         </div>
     </div>
